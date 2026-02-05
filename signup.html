@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign up to ArcByte</title>
-<link rel="icon" href="./logos/favicon.png" type="image/x-icon">
 
 <style>
 * {
@@ -21,57 +20,53 @@ body {
     justify-content: center;
 }
 
+/* ================= Card ================= */
 .card {
     width: 100%;
     max-width: 375px;
     background: #fff;
     border-radius: 6px;
-    padding: 30px;
+    padding: 30px 30px 22px;
     box-shadow: 0 15px 40px rgba(0,0,0,.15);
-    transition: height 0.35s ease;
-    overflow: hidden;
-    min-height: 375px;
     text-align: center;
 }
 
+/* ================= Pages ================= */
 .pages {
-    display: grid;
+    position: relative;
 }
 
 .page {
-    grid-area: 1 / 1;
+    position: absolute;
+    inset: 0;
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateY(8px);
     pointer-events: none;
-    transition: opacity .25s ease, transform .35s ease;
+    transition: opacity .25s ease, transform .25s ease;
 }
 
 .page.active {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
     pointer-events: auto;
+    position: relative;
 }
 
-.logo {
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
-
+/* ================= UI ================= */
 .logo img {
     width: 95px;
+    margin-bottom: 18px;
 }
 
 h1 {
     font-size: 18px;
-    font-weight: 650;
-    margin: 0 0 6px;
-    text-align: center;
+    margin-bottom: 6px;
 }
 
 .subtitle {
     font-size: 12px;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
 }
 
 input, select {
@@ -83,12 +78,12 @@ input, select {
     margin-bottom: 10px;
 }
 
-input:focus, select:focus {
+input:focus {
     outline: none;
     border-color: #0067b8;
 }
 
-button.main-btn {
+.main-btn {
     width: 100%;
     background: #0067b8;
     color: white;
@@ -96,89 +91,9 @@ button.main-btn {
     padding: 9px;
     font-size: 13px;
     border-radius: 4px;
-    cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
     margin-top: 10px;
-    position: relative;
-}
-
-button.main-btn:disabled {
-    background: #c7c7c7;
-    cursor: not-allowed;
-}
-
-button.send-btn {
-    background: #0067b8;
-    color: #fff;
-    border: none;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 4px;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-    margin-top: -10px;
-    min-width: 90px; /* 固定最小宽度 */
-}
-
-button.send-btn.disabled {
-    background: #c7c7c7;
-    cursor: not-allowed;
-}
-
-.send-text {
-    display: inline;
-}
-
-button.send-btn .countdown {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    line-height: 32px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    text-align: center;
-}
-
-/* Layout adjustments */
-.email-row, .phone-row {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-}
-
-.email-row input {
-    flex: 1.5;
-}
-
-.phone-row select {
-    flex: 0 0 70px;
-}
-
-.phone-row input {
-    flex: 1;
-}
-
-.verification-row {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-}
-
-.verification-row input {
-    flex: 1;
-}
-
-.error {
-    display: none;
-    color: red;
-    font-size: 12px;
-    margin-bottom: 10px;
 }
 
 .footer-text {
@@ -190,7 +105,76 @@ button.send-btn .countdown {
 
 .footer-text a {
     color: #0067b8;
-    text-decoration: none;
+    text-decoration: none; }
+
+/* ================= Rows ================= */
+.email-row,
+.phone-row,
+.verification-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.email-row input { flex: 1.5; }
+.phone-row select { width: 70px; }
+.phone-row input { flex: 1; }
+
+/* ================= Send button ================= */
+.send-btn {
+    position: relative;
+    min-width: 90px;
+    height: 36px;
+    border-radius: 4px;
+    border: none;
+    background: #0067b8;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: -10px;
+}
+
+.send-btn.disabled {
+    background: #c7c7c7;
+    cursor: not-allowed;
+}
+
+.send-text,
+.countdown {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .18s ease;
+}
+
+.countdown { opacity: 0; }
+
+/* ================= Error ================= */
+.error {
+    display: none;
+    font-size: 12px;
+    color: red;
+    margin-bottom: 6px;
+}
+
+/* ================= Progress ================= */
+.progress-wrap {
+    margin-top: 18px;
+    height: 3px;
+    background: #e5e5e5;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #0067b8;
+    transition: width .25s ease;
 }
 
 .bottom-footer {
@@ -216,20 +200,14 @@ button.send-btn .countdown {
     font-size: 11px;
     color: #666;
 }
-
-@media (max-height: 650px) {
-    .bottom-footer,
-    .copyright {
-        position: static;
-        margin-top: 16px;
-    }
-}
+s
 </style>
 </head>
 
 <body>
 
 <div class="card">
+
     <div class="logo">
         <img src="./images/logo.png">
     </div>
@@ -237,74 +215,74 @@ button.send-btn .countdown {
     <div class="pages">
 
         <!-- PAGE 0 -->
-        <div class="page active">
-            <h1>Create account</h1>
-            <div class="subtitle">Enter your username</div>
-            <input id="username" placeholder="Username">
-            <button class="main-btn" onclick="next()">Next</button>
-            <div class="footer-text">
-                Already have an account? <a href="./index.html">Sign in</a>
-            </div>
+    <div class="page active">
+        <h1>Create account</h1>
+        <div class="subtitle">Enter your username</div>
+        <input id="username" placeholder="Username">
+        <button class="main-btn" onclick="next()">Next</button>
+
+        <div class="footer-text">
+            Already have an account? <a href="./index.html">Sign in</a>
         </div>
+    </div>
 
         <!-- PAGE 1 -->
         <div class="page">
             <h1>Create a password</h1>
             <div class="subtitle">Use a strong password</div>
             <input id="password" type="password" placeholder="Password">
-            <input id="confirm" type="password" placeholder="Confirm password">
+            <input id="confirm" type="password" placeholder="Confirm Password">
             <div class="error" id="pwErr">Passwords do not match.</div>
             <button class="main-btn" onclick="checkPassword()">Next</button>
-            <div class="footer-text">
-                Already have an account? <a href="./index.html">Sign in</a>
-            </div>
         </div>
 
         <!-- PAGE 2 -->
         <div class="page">
             <h1>Add your email</h1>
             <div class="subtitle">We’ll send you a verification code</div>
+
             <div class="email-row">
-                <input id="email" placeholder="Email address">
-                <button id="emailBtn" class="send-btn" onclick="sendEmail()">
+                <input id="email" placeholder="Email">
+                <button class="send-btn" id="emailBtn" onclick="send(emailBtn)">
                     <span class="send-text">Send</span>
                     <span class="countdown"></span>
                 </button>
             </div>
-            <div class="verification-row">
-                <input id="emailCode" placeholder="Verification code">
-            </div>
+
+            <input id="emailCode" placeholder="Verification code">
             <button class="main-btn" onclick="next()">Next</button>
-            <div class="footer-text">
-                Already have an account? <a href="./index.html">Sign in</a>
-            </div>
         </div>
 
         <!-- PAGE 3 -->
         <div class="page">
             <h1>Add your phone</h1>
-            <div class="subtitle">Used for account security</div>
+            <div class="subtitle">Ussed for account security</div>
+
             <div class="phone-row">
-                <select id="region">
-                    <option value="+86">+86</option>
-                    <option value="+44">+44</option>
+                <select>
+                    <option>+86</option>
+                    <option>+44</option>
                 </select>
-                <input id="phone" placeholder="Phone number">
+                <input id="phone" placeholder="Phone Number">
             </div>
+
             <div class="verification-row">
-                <input id="phoneCode" placeholder="SMS verification code">
-                <button id="phoneBtn" class="send-btn" onclick="sendPhone()">
+                <input id="phoneCode" placeholder="Verification code">
+                <button class="send-btn" id="phoneBtn" onclick="send(phoneBtn)">
                     <span class="send-text">Send</span>
                     <span class="countdown"></span>
                 </button>
             </div>
+
             <button class="main-btn" onclick="finish()">Create account</button>
-            <div class="footer-text">
-                Already have an account? <a href="./index.html">Sign in</a>
-            </div>
         </div>
 
     </div>
+
+    <div class="progress-wrap">
+        <div class="progress" id="progress"></div>
+    </div>
+
 </div>
 
 <div class="bottom-footer">
@@ -319,82 +297,104 @@ button.send-btn .countdown {
 
 <script>
 const pages = document.querySelectorAll(".page");
-const card = document.querySelector(".card");
-let index = 0;
-const CODE = "111111";
+const progress = document.getElementById("progress");
+const password = document.getElementById("password");
+const confirm = document.getElementById("confirm");
+const pwErr = document.getElementById("pwErr");
 
-// page transition with card height
+let index = 0;
+const total = pages.length;
+
 function show(i){
-    const prevHeight = pages[index].offsetHeight + 60;
     pages[index].classList.remove("active");
     index = i;
     pages[index].classList.add("active");
-    const newHeight = pages[index].offsetHeight + 60;
-    card.style.height = prevHeight + "px"; 
-    requestAnimationFrame(()=> card.style.height = newHeight + "px");
+    progress.style.width = (index / (total - 1)) * 100 + "%";
 }
 
-function next(){ if(index < pages.length-1) show(index+1); }
+function next(){
+    if(index < total - 1) show(index + 1);
+}
 
+/* ===== FIXED PASSWORD CHECK ===== */
 function checkPassword(){
-    const pw = document.getElementById("password").value;
-    const cf = document.getElementById("confirm").value;
-    const err = document.getElementById("pwErr");
-    if(pw && pw === cf){ 
-        err.style.display="none"; 
-        next(); 
-    } else { 
-        err.style.display="block"; 
+    const pw = password.value.trim();
+    const cf = confirm.value.trim();
+
+    if(!pw || !cf){
+        pwErr.textContent = "Password cannot be empty.";
+        pwErr.style.display = "block";
+        return;
     }
+
+    if(pw !== cf){
+        pwErr.textContent = "Passwords do not match.";
+        pwErr.style.display = "block";
+        return;
+    }
+
+    pwErr.style.display = "none";
+    next();
 }
 
-function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-function validPhone(v){ return /^[0-9]{6,15}$/.test(v); }
+/* ===== LIVE VALIDATION ===== */
+[password, confirm].forEach(input=>{
+    input.addEventListener("input", ()=>{
+        if(!confirm.value){
+            pwErr.style.display = "none";
+            return;
+        }
 
-function sendEmail(){ if(validEmail(email.value)) startCountdown(emailBtn); }
-function sendPhone(){ if(validPhone(phone.value)) startCountdown(phoneBtn); }
+        if(password.value.trim() === confirm.value.trim()){
+            pwErr.style.display = "none";
+        } else {
+            pwErr.textContent = "Passwords do not match.";
+            pwErr.style.display = "block";
+        }
+    });
+});
 
-function startCountdown(btn){
-    const span = btn.querySelector(".countdown");
-    const text = btn.querySelector(".send-text");
-    const originalWidth = btn.offsetWidth; // 固定宽度
+/* ===== SEND CODE COOLDOWN ===== */
+function send(btn){
     let t = 60;
     btn.disabled = true;
     btn.classList.add("disabled");
-    text.style.display = "none"; 
-    span.textContent = t + "s";
-    btn.style.width = originalWidth + "px"; // 保持宽度
+
+    const text = btn.querySelector(".send-text");
+    const cd = btn.querySelector(".countdown");
+
+    text.style.opacity = 0;
+    cd.style.opacity = 1;
+    cd.textContent = t + "s";
+
     const timer = setInterval(()=>{
         t--;
-        span.textContent = t + "s";
-        if(t<=0){
+        cd.textContent = t + "s";
+        if(t <= 0){
             clearInterval(timer);
-            span.textContent = "";
             btn.disabled = false;
             btn.classList.remove("disabled");
-            text.style.display = "inline"; 
-            btn.style.width = ""; // 恢复自适应
+            text.style.opacity = 1;
+            cd.style.opacity = 0;
         }
     },1000);
 }
 
-function finish(){
-    if(emailCode.value===CODE && phoneCode.value===CODE){
-        alert("[ArcByte Developer] Account created successfully!");
-    } else {
-        alert("Verification codes are incorrect.");
-    }
-}
-
+/* ===== ENTER KEY SUPPORT ===== */
 document.addEventListener("keydown", e=>{
-    if(e.key==="Enter"){
-        const btn = pages[index].querySelector("button.main-btn");
+    if(e.key !== "Enter") return;
+
+    const inputs = [...pages[index].querySelectorAll("input")];
+    const cur = document.activeElement;
+    const i = inputs.indexOf(cur);
+
+    if(i !== -1 && i < inputs.length - 1){
+        inputs[i + 1].focus();
+    } else {
+        const btn = pages[index].querySelector(".main-btn");
         if(btn) btn.click();
     }
 });
-
-// initialize card height
-card.style.height = pages[index].offsetHeight + 60 + "px";
 </script>
 
 </body>
