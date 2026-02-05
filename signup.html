@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up to ArcByte</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: url("./images/bglight.png") no-repeat center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= Card ================= */
+.card {
+    width: 100%;
+    max-width: 375px;
+    background: #fff;
+    border-radius: 6px;
+    padding: 30px 30px 22px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.15);
+    text-align: center;
+}
+
+/* ================= Pages ================= */
+.pages {
+    position: relative;
+}
+
+.page {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.page.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative;
+}
+
+/* ================= UI ================= */
+.logo img {
+    width: 95px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 22px;
+}
+
+input, select {
+    width: 100%;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0067b8;
+}
+
+.main-btn {
+    width: 100%;
+    background: #0067b8;
+    color: white;
+    border: none;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.footer-text {
+    margin-top: 18px;
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+}
+
+.footer-text a {
+    color: #0067b8;
+    text-decoration: none; }
+
+/* ================= Rows ================= */
+.email-row,
+.phone-row,
+.verification-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.email-row input { flex: 1.5; }
+.phone-row select { width: 70px; }
+.phone-row input { flex: 1; }
+
+/* ================= Send button ================= */
+.send-btn {
+    position: relative;
+    min-width: 90px;
+    height: 36px;
+    border-radius: 4px;
+    border: none;
+    background: #0067b8;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: -10px;
+}
+
+.send-btn.disabled {
+    background: #c7c7c7;
+    cursor: not-allowed;
+}
+
+.send-text,
+.countdown {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .18s ease;
+}
+
+.countdown { opacity: 0; }
+
+/* ================= Error ================= */
+.error {
+    display: none;
+    font-size: 12px;
+    color: red;
+    margin-bottom: 6px;
+}
+
+/* ================= Progress ================= */
+.progress-wrap {
+    margin-top: 18px;
+    height: 3px;
+    background: #e5e5e5;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #0067b8;
+    transition: width .25s ease;
+}
+
+.bottom-footer {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+}
+
+.bottom-footer a {
+    margin: 0 6px;
+    color: #666;
+    text-decoration: none;
+}
+
+/* ================= Language Pill ================= */
+.language-pill-container {
+    display: inline-block;
+    position: relative;
+    margin-left: 12px;
+}
+
+.language-pill {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.2s;
+    color: #111; /* black text and SVG */
+}
+
+.language-pill svg {
+    fill: currentColor;
+}
+
+.language-pill:hover {
+    background: #e0e0e0;
+}
+
+.language-dropdown {
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    min-width: 100px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.language-dropdown.show {
+    display: block;
+}
+
+.lang-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #111;
+}
+
+.lang-option:hover {
+    background: #f0f0f0;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <img src="./images/logo.png">
+    </div>
+
+    <div class="pages">
+
+        <!-- PAGE 0 -->
+        <div class="page active">
+            <h1>Create account</h1>
+            <div class="subtitle">Enter your username</div>
+            <input id="username" placeholder="Username">
+            <button class="main-btn" onclick="next()">Next</button>
+            <div class="footer-text">
+                Already have an account? <a href="./index.html">Sign in</a>
+            </div>
+        </div>
+
+        <!-- PAGE 1 -->
+        <div class="page">
+            <h1>Create a password</h1>
+            <div class="subtitle">Use a strong password</div>
+            <input id="password" type="password" placeholder="Password">
+            <input id="confirm" type="password" placeholder="Confirm Password">
+            <div class="error" id="pwErr">Passwords do not match.</div>
+            <button class="main-btn" onclick="checkPassword()">Next</button>
+        </div>
+
+        <!-- PAGE 2 -->
+        <div class="page">
+            <h1>Add your email</h1>
+            <div class="subtitle">We’ll send you a verification code</div>
+
+            <div class="email-row">
+                <input id="email" placeholder="Email">
+                <button class="send-btn" id="emailBtn" onclick="send(emailBtn)">
+                    <span class="send-text">Send</span>
+                    <span class="countdown"></span>
+                </button>
+            </div>
+
+            <input id="emailCode" placeholder="Verification code">
+            <button class="main-btn" onclick="next()">Next</button>
+        </div>
+
+        <!-- PAGE 3 -->
+        <div class="page">
+            <h1>Add your phone</h1>
+            <div class="subtitle">Used for account security</div>
+
+            <div class="phone-row">
+                <select>
+                    <option>+86</option>
+                    <option>+44</option>
+                </select>
+                <input id="phone" placeholder="Phone Number">
+            </div>
+
+            <div class="verification-row">
+                <input id="phoneCode" placeholder="Verification code">
+                <button class="send-btn" id="phoneBtn" onclick="send(phoneBtn)">
+                    <span class="send-text">Send</span>
+                    <span class="countdown"></span>
+                </button>
+            </div>
+
+            <button class="main-btn" onclick="finish()">Create account</button>
+        </div>
+
+    </div>
+
+    <div class="progress-wrap">
+        <div class="progress" id="progress"></div>
+    </div>
+
+</div>
+
+<div class="bottom-footer">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Cookies</a>
+
+    <!-- Language Pill -->
+    <div class="language-pill-container">
+        <button class="language-pill" id="languagePill">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10
+                         10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8
+                         s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm0-14a6 6 0 0 0-6 6
+                         6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6z"/>
+            </svg>
+            English ▼
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <div class="lang-option" data-lang="en">English</div>
+            <div class="lang-option" data-lang="zh">中文</div>
+        </div>
+    </div>
+</div>
+
+<div class="copyright">
+    © 2026 ArcByte Limited. All rights reserved.
+</div>
+
+<script>
+// ===== PAGE LOGIC =====
+const pages = document.querySelectorAll(".page");
+const progress = document.getElementById("progress");
+const password = document.getElementById("password");
+const confirm = document.getElementById("confirm");
+const pwErr = document.getElementById("pwErr");
+
+let index = 0;
+const total = pages.length;
+
+function show(i){
+    pages[index].classList.remove("active");
+    index = i;
+    pages[index].classList.add("active");
+    progress.style.width = (index / (total - 1)) * 100 + "%";
+}
+
+function next(){
+    if(index < total - 1) show(index + 1);
+}
+
+/* ===== PASSWORD CHECK ===== */
+function checkPassword(){
+    const pw = password.value.trim();
+    const cf = confirm.value.trim();
+
+    if(!pw || !cf){
+        pwErr.textContent = "Password cannot be empty.";
+        pwErr.style.display = "block";
+        return;
+    }
+
+    if(pw !== cf){
+        pwErr.textContent = "Passwords do not match.";
+        pwErr.style.display = "block";
+        return;
+    }
+
+    pwErr.style.display = "none";
+    next();
+}
+
+[password, confirm].forEach(input=>{
+    input.addEventListener("input", ()=>{
+        if(!confirm.value){
+            pwErr.style.display = "none";
+            return;
+        }
+        if(password.value.trim() === confirm.value.trim()){
+            pwErr.style.display = "none";
+        } else {
+            pwErr.textContent = "Passwords do not match.";
+            pwErr.style.display = "block";
+        }
+    });
+});
+
+/* ===== SEND CODE ===== */
+function send(btn){
+    let t = 60;
+    btn.disabled = true;
+    btn.classList.add("disabled");
+
+    const text = btn.querySelector(".send-text");
+    const cd = btn.querySelector(".countdown");
+
+    text.style.opacity = 0;
+    cd.style.opacity = 1;
+    cd.textContent = t + "s";
+
+    const timer = setInterval(()=>{
+        t--;
+        cd.textContent = t + "s";
+        if(t <= 0){
+            clearInterval(timer);
+            btn.disabled = false;
+            btn.classList.remove("disabled");
+            text.style.opacity = 1;
+            cd.style.opacity = 0;
+        }
+    },1000);
+}
+
+/* ===== ENTER KEY SUPPORT ===== */
+document.addEventListener("keydown", e=>{
+    if(e.key !== "Enter") return;
+    const inputs = [...pages[index].querySelectorAll("input")];
+    const cur = document.activeElement;
+    const i = inputs.indexOf(cur);
+    if(i !== -1 && i < inputs.length - 1){
+        inputs[i + 1].focus();
+    } else {
+        const btn = pages[index].querySelector(".main-btn");
+        if(btn) btn.click();
+    }
+});
+
+// ===== LANGUAGE PILL =====
+const translations = {
+    en: {
+        username: "Username",
+        password: "Password",
+        confirm: "Confirm Password",
+        email: "Email",
+        emailCode: "Verification code",
+        phone: "Phone Number",
+        phoneCode: "Verification code",
+        h1: ["Create account", "Create a password", "Add your email", "Add your phone"],
+        subtitle: ["Enter your username", "Use a strong password", "We’ll send you a verification code", "Used for account security"],
+        nextBtn: "Next",
+        createBtn: "Create account",
+        footerSignIn: "Already have an account? Sign in"
+    },
+    zh: {
+        username: "用户名",
+        password: "密码",
+        confirm: "确认密码",
+        email: "邮箱",
+        emailCode: "验证码",
+        phone: "手机号",
+        phoneCode: "验证码",
+        h1: ["创建账户", "创建密码", "添加邮箱", "添加手机号"],
+        subtitle: ["输入你的用户名", "使用强密码", "我们会发送验证码", "用于账户安全"],
+        nextBtn: "下一步",
+        createBtn: "创建账户",
+        footerSignIn: "已有账户？登录"
+    }
+};
+
+let currentLang = "en";
+
+function setLanguage(lang){
+    currentLang = lang;
+
+    // 更新 placeholder
+    document.querySelectorAll("input").forEach(el=>{
+        if(translations[lang][el.id] !== undefined){
+            el.placeholder = translations[lang][el.id];
+        }
+    });
+
+    // 更新标题和副标题
+    pages.forEach((page, i)=>{
+        const h1 = page.querySelector("h1");
+        const subtitle = page.querySelector(".subtitle");
+        if(h1) h1.textContent = translations[lang].h1[i];
+        if(subtitle) subtitle.textContent = translations[lang].subtitle[i];
+
+        const btn = page.querySelector(".main-btn");
+        if(btn){
+            if(i === pages.length - 1) btn.textContent = translations[lang].createBtn;
+            else btn.textContent = translations[lang].nextBtn;
+        }
+    });
+
+    // 更新底部 footer 文本
+    const footer = pages[0].querySelector(".footer-text");
+    if(footer){
+        const link = footer.querySelector("a");
+        footer.innerHTML = `${translations[lang].footerSignIn.replace("Sign in","").replace("登录","")} <a href="./index.html">${translations[lang].footerSignIn.includes("Sign in") ? "Sign in" : "登录"}</a>`;
+    }
+}
+
+const pill = document.getElementById("languagePill");
+const dropdown = document.getElementById("languageDropdown");
+const langOptions = document.querySelectorAll(".lang-option");
+
+pill.addEventListener("click", e=>{
+    e.stopPropagation();
+    dropdown.classList.toggle("show");
+});
+
+langOptions.forEach(option=>{
+    option.addEventListener("click", ()=>{
+        const selectedLang = option.dataset.lang;
+        setLanguage(selectedLang);
+        pill.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10
+                         10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8
+                         s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm0-14a6 6 0 0 0-6 6
+                         6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6z"/>
+            </svg> ${option.textContent} ▼`;
+        dropdown.classList.remove("show");
+    });
+});
+
+document.addEventListener("click", ()=>{
+    dropdown.classList.remove("show");
+});
+</script>
+
+</body>
+</html>
