@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArcByte</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: #ffffff;
+}
+
+.hero {
+    position: relative;
+    height: 75vh;
+    min-height: 600px;
+    padding: 48px 64px;
+    color: #fff;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Background image */
+    background: #000 url("./images/bg.png") center/cover no-repeat;
+}
+
+/* Optional soft overlay for better readability */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.4),
+            rgba(0,0,0,0.7)
+        );
+    z-index: 1;
+}
+
+.top-bar,
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes flowTexture {
+    0% {
+        transform: translate(-60px, -40px) scale(1);
+    }
+    50% {
+        transform: translate(40px, 30px) scale(1.05);
+    }
+    100% {
+        transform: translate(-30px, 20px) scale(1.02);
+    }
+}
+
+/* ================= TOP BAR ================= */
+.top-bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 90px;
+    filter: invert(1);
+    padding-left: 30px;
+}
+
+.contact {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    opacity: 0.9;
+    transition: 0.3s ease;
+    font-weight: 500;
+    padding-right: 30px;
+}
+
+.contact:hover {
+    opacity: 1;
+}
+
+/* ================= HERO CONTENT ================= */
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    margin-top: auto;
+    padding-bottom: 50px; /* 控制标题离白色区域的距离 */
+    padding-left: 30px;
+
+    max-width: 760px;
+}
+
+/* 渐入动画 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+.fade-in.delay {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 32px;
+    margin-bottom: 0px;
+    font-weight: 500;
+}
+
+.welcome::before {
+    content: "";
+    width: 32px;
+    height: 32px;
+    background: #f5b400;
+}
+
+.hero-content h1 {
+    font-size: 120px;
+    font-weight: 500;
+    line-height: 1.00;
+    letter-spacing: -1px;
+}
+
+/* ================= WHITE SECTION ================= */
+/* ================= OFFER CONTENT ================= */
+.content {
+    padding: 80px 64px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.content h2 {
+    font-size: 36px;
+    margin-bottom: 32px;
+    font-weight: 500;
+}
+
+.offer-meta {
+    margin-bottom: 32px;
+    color: #777;
+    font-size: 16px;
+}
+
+.content p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.offer-highlight {
+    font-weight: 600;
+    color: #000;
+}
+
+.offer-highlight {
+    font-weight: 600;
+    color: #000;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .hero {
+        padding: 32px;
+        min-height: 520px;
+    }
+
+    .hero-content {
+        padding-bottom: 80px;
+    }
+
+    .hero-content h1 {
+        font-size: 46px;
+    }
+
+    .content {
+        padding: 32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="top-bar">
+        <div class="logo">
+            <img src="./images/logo.png" alt="ArcByte Logo">
+        </div>
+        <a href="#" class="contact">Hi, Charles Weijia Li!</a>
+    </div>
+
+    <div class="hero-content">
+        <div class="welcome fade-in">
+            Welcome to ArcByte
+        </div>
+        <h1 class="fade-in delay">
+            Your future<br>
+            begins here.
+        </h1>
+    </div>
+
+</section>
+
+<section class="content">
+
+    <h2>Offer Placement to Charles Li</h2>
+
+    <div class="offer-meta">
+        ArcByte Ltd. · Date: 11 February 2026
+    </div>
+
+    <p>Dear Charles Weijia Li,</p>
+
+    <p>
+        We are delighted to formally offer you the position of 
+        <span class="offer-highlight">Chief Executive Officer</span> 
+        at <span class="offer-highlight">ArcByte</span>.
+    </p>
+
+    <p>
+        Your internship is scheduled to commence on 
+        <span class="offer-highlight">11 February 2026</span> 
+        and will run for an initial duration of 
+        <span class="offer-highlight">3 months</span>, 
+        subject to mutual agreement for extension.
+
+    </p>
+
+    <p>
+        During your time with us, you will work closely with our AI and product teams, 
+        contributing to research initiatives, model testing, documentation, 
+        and strategic development projects. This internship is designed to provide 
+        meaningful, hands-on exposure to real-world AI deployment and innovation.
+    </p>
+
+    <p>
+        The position is based on a 
+        <span class="offer-highlight">hybrid working arrangement</span>, 
+        with flexibility depending on project requirements. 
+        Your expected working schedule will be 
+        <span class="offer-highlight">Monday to Friday, 9:00am–5:00pm</span>.
+    </p>
+
+    <p>
+        You will receive a monthly internship allowance of 
+        <span class="offer-highlight">15,000 CNY</span>, 
+        payable via bank transfer.
+    </p>
+
+    <p>
+        We are confident that your skills, initiative, and forward-thinking mindset 
+        will make a valuable contribution to ArcByte’s continued growth. 
+        We are excited to support your professional development and look forward 
+        to welcoming you to the team.
+    </p>
+
+    <p>
+        Kind regards,<br><br>
+        <strong>ArcByte Human Resource Department</strong><br>
+        A part of ArcByte Limited.
+    </p>
+
+</section>
+
+</body>
+</html>

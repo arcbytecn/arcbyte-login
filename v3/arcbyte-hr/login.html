@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login to ArcByte</title>
+<link rel="icon" href="./logos/favicon.png" type="image/x-icon">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    background: url("./images/bglight.png") no-repeat center center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signin-card {
+    width: 100%;
+    max-width: 375px;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.logo img {
+    max-width: 95px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: 18px;
+    font-weight: 650;
+    margin: 0 0 6px;
+    color: #111;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 6px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0067b8;
+}
+
+input.error {
+    border-color: #d93025;
+}
+
+.password-area {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.password-area.show {
+    max-height: 120px;
+}
+
+.error-text {
+    font-size: 12px;
+    color: #d93025;
+    text-align: left;
+    margin-bottom: 10px;
+    display: none;
+}
+
+.forgot {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.forgot a {
+    font-size: 12px;
+    color: #0067b8;
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    background: #0067b8;
+    color: white;
+    border: none;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background: #005da6;
+}
+
+.footer-text {
+    margin-top: 25px;
+    font-size: 11px;
+    color: #666;
+}
+
+/* ===== 页面底部 ===== */
+.bottom-footer {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+}
+
+.bottom-footer a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 6px;
+}
+
+/* 药丸式语言选择 */
+.language-pill-container {
+    display: inline-block;
+    position: relative;
+    margin-left: 12px;
+}
+
+.language-pill {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.2s;
+    color: #111; /* black text and SVG */
+}
+
+.language-pill svg {
+    fill: currentColor; /* SVG inherits black color */
+}
+
+.language-pill:hover {
+    background: #e0e0e0;
+}
+
+.language-dropdown {
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    min-width: 100px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.language-dropdown.show {
+    display: block;
+}
+
+.lang-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #111; /* black text */
+}
+
+.lang-option:hover {
+    background: #f0f0f0;
+}
+
+.copyright {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+}
+
+/* 小高度设备防遮挡 */
+@media (max-height: 650px) {
+    .bottom-footer,
+    .copyright {
+        position: static;
+        margin-top: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="signin-card">
+    <div class="logo">
+        <img src="./images/logo.png" alt="Logo">
+    </div>
+
+    <h1 data-i18n="title">Sign in to ArcByte HR</h1>
+    <div class="subtitle" data-i18n="subtitle">using your ArcByte Account</div>
+
+    <input id="username" type="text" data-i18n-placeholder="username" placeholder="Username" />
+
+    <div class="password-area" id="passwordArea">
+        <input id="password" type="password" data-i18n-placeholder="password" placeholder="Password" />
+        <div class="error-text" id="errorText" data-i18n="error">
+            Incorrect username or password. Please try again.
+        </div>
+    </div>
+
+    <div class="forgot">
+        <a href="#" data-i18n="forgot">Forgot your password?</a>
+    </div>
+
+    <button id="signinBtn" data-i18n="signin">Sign in</button>
+
+</div>
+
+<div class="bottom-footer">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Cookies</a>
+
+    <!-- 药丸语言选择 -->
+    <div class="language-pill-container">
+        <button class="language-pill" id="languagePill">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10
+                         10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8
+                         s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm0-14a6 6 0 0 0-6 6
+                         6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6z"/>
+            </svg>
+            English ▼
+        </button>
+        <div class="language-dropdown" id="languageDropdown">
+            <div class="lang-option" data-lang="en">English</div>
+            <div class="lang-option" data-lang="zh">中文</div>
+        </div>
+    </div>
+</div>
+
+<div class="copyright">
+    © 2026 ArcByte Limited. All Rights Reserved.
+</div>
+
+<script src="./109saduj1209jd90saw.js"></script>
+
+</body>
+</html>
