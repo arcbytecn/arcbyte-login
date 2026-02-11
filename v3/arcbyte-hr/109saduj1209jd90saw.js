@@ -5,8 +5,6 @@
 // ===== 模拟账户数据库 =====
 const accounts = [
     {
-        username: "charles.li@arcbytecn.com",
-        password: "Lwj110719",
         redirect: "./results/client_id=accountodactyl-prod&method=arcbyte_identity&platform=web/redirect_uri=https%253A%252F%252Fauth.arcbytecn.com%252Fauthorize%253Facr_values%253Durn%25253Aarcbytecn%25253Agold%2526cl.html"
     },
 ];
@@ -80,3 +78,4 @@ password.addEventListener("input", () => {
     username.classList.remove("error");
     errorText.style.display = "none";
 });
+
