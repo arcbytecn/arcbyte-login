@@ -9,7 +9,7 @@
 
 <link rel="icon" href="./logos/favicon.png">
 
-<!-- Google Identity Services -->
+<!-- Google Login SDK -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
@@ -222,6 +222,9 @@ color:#666;
  data-width="320">
 </div>
 
+
+<!-- OTHER LOGIN OPTIONS -->
+
 <div class="oauth-divider">
 <span>or</span>
 </div>
@@ -247,24 +250,21 @@ New here? <a href="./signup.html">Create an account</a>
 </div>
 
 <div class="bottom-footer">
-
 <a href="#">Privacy</a>
 <a href="#">Terms</a>
 <a href="#">Cookies</a>
-
 </div>
 
 <div class="copyright">
 © 2026 ArcByte Limited. All Rights Reserved.
 </div>
 
+
 <script>
 
 /* Google login callback */
 
 function handleCredentialResponse(response){
-
-console.log("Google JWT:",response.credential);
 
 fetch("/auth/google",{
 method:"POST",
@@ -277,7 +277,11 @@ token:response.credential
 })
 .then(res=>res.json())
 .then(data=>{
-console.log("User:",data)
+
+/* redirect after successful login */
+
+window.location.href="https://docs.arcbytecn.com";
+
 })
 
 }
@@ -317,7 +321,9 @@ username.classList.add("error");
 
 }else{
 
-alert("ArcByte Login Successful");
+/* redirect after password success */
+
+window.location.href="https://docs.arcbytecn.com";
 
 }
 
