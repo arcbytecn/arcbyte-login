@@ -1,403 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Login to ArcByte</title>
-<link rel="icon" href="./logos/favicon.png" type="image/x-icon">
+
+<link rel="icon" href="./logos/favicon.png">
+
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+*{
+box-sizing:border-box;
+font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    position: relative;
-    background: url("./images/bglight.png") no-repeat center center / cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body{
+margin:0;
+min-height:100vh;
+background:url("./images/bglight.png") no-repeat center/cover;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.signin-card {
-    width: 100%;
-    max-width: 375px;
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 30px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    text-align: center;
+.signin-card{
+width:100%;
+max-width:380px;
+background:#fff;
+border-radius:6px;
+padding:30px;
+box-shadow:0 15px 40px rgba(0,0,0,0.15);
+text-align:center;
 }
 
-.logo img {
-    max-width: 95px;
-    margin-bottom: 18px;
+.logo img{
+max-width:95px;
+margin-bottom:18px;
 }
 
-h1 {
-    font-size: 18px;
-    font-weight: 650;
-    margin: 0 0 6px;
-    color: #111;
+h1{
+font-size:18px;
+font-weight:650;
+margin:0 0 6px;
+color:#111;
 }
 
-.subtitle {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 30px;
+.subtitle{
+font-size:12px;
+color:#666;
+margin-bottom:20px;
 }
 
-input {
-    width: 100%;
-    padding: 9px;
-    font-size: 13px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    margin-bottom: 6px;
+/* OAuth buttons */
+
+.oauth-buttons{
+display:flex;
+flex-direction:column;
+gap:8px;
+margin-bottom:12px;
 }
 
-input:focus {
-    outline: none;
-    border-color: #0067b8;
+.oauth-btn{
+width:100%;
+padding:9px;
+font-size:13px;
+border-radius:4px;
+border:1px solid #ccc;
+background:#fff;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
 }
 
-input.error {
-    border-color: #d93025;
+.oauth-btn:hover{
+background:#f5f5f5;
 }
 
-.password-area {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease;
+.oauth-btn img{
+width:16px;
+height:16px;
 }
 
-.password-area.show {
-    max-height: 120px;
+.oauth-divider{
+display:flex;
+align-items:center;
+margin:18px 0;
+font-size:12px;
+color:#777;
 }
 
-.error-text {
-    font-size: 12px;
-    color: #d93025;
-    text-align: left;
-    margin-bottom: 10px;
-    display: none;
+.oauth-divider:before,
+.oauth-divider:after{
+content:"";
+flex:1;
+height:1px;
+background:#ddd;
 }
 
-.forgot {
-    text-align: left;
-    margin-bottom: 30px;
+.oauth-divider span{
+padding:0 10px;
 }
 
-.forgot a {
-    font-size: 12px;
-    color: #0067b8;
-    text-decoration: none;
+input{
+width:100%;
+padding:9px;
+font-size:13px;
+border-radius:4px;
+border:1px solid #ccc;
+margin-bottom:6px;
 }
 
-button {
-    width: 100%;
-    background: #0067b8;
-    color: white;
-    border: none;
-    padding: 9px;
-    font-size: 13px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
+input:focus{
+outline:none;
+border-color:#0067b8;
 }
 
-button:hover {
-    background: #005da6;
+input.error{
+border-color:#d93025;
 }
 
-.footer-text {
-    margin-top: 25px;
-    font-size: 11px;
-    color: #666;
+.password-area{
+max-height:0;
+overflow:hidden;
+transition:max-height .35s ease;
 }
 
-/* ===== 页面底部 ===== */
-.bottom-footer {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
-    font-size: 11px;
-    color: #666;
+.password-area.show{
+max-height:120px;
 }
 
-.bottom-footer a {
-    color: #666;
-    text-decoration: none;
-    margin: 0 6px;
+.error-text{
+font-size:12px;
+color:#d93025;
+text-align:left;
+margin-bottom:10px;
+display:none;
 }
 
-/* 药丸式语言选择 */
-.language-pill-container {
-    display: inline-block;
-    position: relative;
-    margin-left: 12px;
+button.primary{
+width:100%;
+background:#0067b8;
+color:white;
+border:none;
+padding:9px;
+font-size:13px;
+border-radius:4px;
+cursor:pointer;
+font-weight:600;
 }
 
-.language-pill {
-    background: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 9999px;
-    padding: 4px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: background 0.2s;
-    color: #111; /* black text and SVG */
+button.primary:hover{
+background:#005da6;
 }
 
-.language-pill svg {
-    fill: currentColor; /* SVG inherits black color */
+.footer-text{
+margin-top:20px;
+font-size:11px;
+color:#666;
 }
 
-.language-pill:hover {
-    background: #e0e0e0;
+.bottom-footer{
+position:absolute;
+bottom:40px;
+width:100%;
+text-align:center;
+font-size:11px;
+color:#666;
 }
 
-.language-dropdown {
-    display: none;
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    min-width: 100px;
-    z-index: 100;
-    overflow: hidden;
+.bottom-footer a{
+color:#666;
+text-decoration:none;
+margin:0 6px;
 }
 
-.language-dropdown.show {
-    display: block;
+.copyright{
+position:absolute;
+bottom:16px;
+width:100%;
+text-align:center;
+font-size:11px;
+color:#666;
 }
 
-.lang-option {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #111; /* black text */
-}
-
-.lang-option:hover {
-    background: #f0f0f0;
-}
-
-.copyright {
-    position: absolute;
-    bottom: 16px;
-    width: 100%;
-    text-align: center;
-    font-size: 11px;
-    color: #666;
-}
-
-/* 小高度设备防遮挡 */
-@media (max-height: 650px) {
-    .bottom-footer,
-    .copyright {
-        position: static;
-        margin-top: 16px;
-    }
-}
 </style>
 </head>
 
 <body>
 
 <div class="signin-card">
-    <div class="logo">
-        <img src="./images/logo.png" alt="Logo">
-    </div>
 
-    <h1 data-i18n="title">Sign in</h1>
-    <div class="subtitle" data-i18n="subtitle">to your ArcByte Account</div>
+<div class="logo">
+<img src="./images/logo.png">
+</div>
 
-    <input id="username" type="text" data-i18n-placeholder="username" placeholder="Username" />
+<h1>Sign in</h1>
+<div class="subtitle">to your ArcByte Account</div>
 
-    <div class="password-area" id="passwordArea">
-        <input id="password" type="password" data-i18n-placeholder="password" placeholder="Password" />
-        <div class="error-text" id="errorText" data-i18n="error">
-            Incorrect username or password. Please try again.
-        </div>
-    </div>
 
-    <div class="forgot">
-        <a href="#" data-i18n="forgot">Forgot your password?</a>
-    </div>
+<!-- GOOGLE LOGIN -->
 
-    <button id="signinBtn" data-i18n="signin">Sign in</button>
+<div id="g_id_onload"
+ data-client_id="12756840974-7aplet1sosop8s7bj8jpvilbqidoj9l9.apps.googleusercontent.com"
+ data-context="signin"
+ data-ux_mode="popup"
+ data-callback="handleCredentialResponse">
+</div>
 
-    <div class="footer-text">
-        <span data-i18n="new">New here?</span>
-        <a href="./signup.html" data-i18n="create">Create an account</a>
-    </div>
+<div class="g_id_signin"
+ data-type="standard"
+ data-size="large"
+ data-theme="outline"
+ data-text="signin_with"
+ data-width="320">
+</div>
+
+<div class="oauth-divider">
+<span>or</span>
+</div>
+
+<input id="username" placeholder="Username">
+
+<div class="password-area" id="passwordArea">
+
+<input id="password" type="password" placeholder="Password">
+
+<div class="error-text" id="errorText">
+Incorrect username or password
+</div>
+
+</div>
+
+<button class="primary" id="signinBtn">Sign in</button>
+
+<div class="footer-text">
+New here? <a href="./signup.html">Create an account</a>
+</div>
+
 </div>
 
 <div class="bottom-footer">
-    <a href="#">Privacy</a>
-    <a href="#">Terms</a>
-    <a href="#">Cookies</a>
 
-    <!-- 药丸语言选择 -->
-    <div class="language-pill-container">
-        <button class="language-pill" id="languagePill">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10
-                         10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8
-                         s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm0-14a6 6 0 0 0-6 6
-                         6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6z"/>
-            </svg>
-            English ▼
-        </button>
-        <div class="language-dropdown" id="languageDropdown">
-            <div class="lang-option" data-lang="en">English</div>
-            <div class="lang-option" data-lang="zh">中文</div>
-        </div>
-    </div>
+<a href="#">Privacy</a>
+<a href="#">Terms</a>
+<a href="#">Cookies</a>
+
 </div>
 
 <div class="copyright">
-    © 2026 ArcByte Limited. All Rights Reserved.
+© 2026 ArcByte Limited. All Rights Reserved.
 </div>
 
 <script>
-// ===== 双语文本 =====
-const translations = {
-    en: {
-        title: "Sign in",
-        subtitle: "to your ArcByte Account",
-        username: "Username",
-        password: "Password",
-        error: "Incorrect username or password. Please try again.",
-        forgot: "Forgot your password?",
-        signin: "Sign in",
-        new: "New here?",
-        create: "Create an account"
-    },
-    zh: {
-        title: "登录",
-        subtitle: "登录你的 ArcByte 账户",
-        username: "用户名",
-        password: "密码",
-        error: "用户名或密码错误，请重试。",
-        forgot: "忘记密码？",
-        signin: "登录",
-        new: "第一次使用？",
-        create: "创建账户"
-    }
+
+/* Google login callback */
+
+function handleCredentialResponse(response){
+
+console.log("Google JWT:",response.credential);
+
+fetch("/auth/google",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+token:response.credential
+})
+})
+.then(res=>res.json())
+.then(data=>{
+console.log("User:",data)
+})
+
+}
+
+
+/* OAuth redirect for other providers */
+
+function oauth(provider){
+window.location.href="/auth/"+provider;
+}
+
+
+/* Password login demo */
+
+const username=document.getElementById("username");
+const password=document.getElementById("password");
+const passwordArea=document.getElementById("passwordArea");
+const errorText=document.getElementById("errorText");
+
+let expanded=false;
+const DEMO_PASSWORD="123456";
+
+username.oninput=()=>{
+if(username.value&&!expanded){
+passwordArea.classList.add("show");
+expanded=true;
+}
 };
 
-let currentLang = "en";
-function setLanguage(lang) {
-    currentLang = lang;
+document.getElementById("signinBtn").onclick=()=>{
 
-    document.querySelectorAll("[data-i18n]").forEach(el => {
-        el.textContent = translations[lang][el.dataset.i18n];
-    });
+if(password.value!==DEMO_PASSWORD){
 
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
-        el.placeholder = translations[lang][el.dataset.i18nPlaceholder];
-    });
+errorText.style.display="block";
+password.classList.add("error");
+username.classList.add("error");
+
+}else{
+
+alert("ArcByte Login Successful");
+
 }
 
-// ===== 药丸语言交互 =====
-const pill = document.getElementById("languagePill");
-const dropdown = document.getElementById("languageDropdown");
-const langOptions = document.querySelectorAll(".lang-option");
+};
 
-pill.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle("show");
-});
+password.oninput=()=>{
+errorText.style.display="none";
+password.classList.remove("error");
+username.classList.remove("error");
+};
 
-langOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        const selectedLang = option.dataset.lang;
-        setLanguage(selectedLang);
-        pill.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10
-                         10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8
-                         s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8zm0-14a6 6 0 0 0-6 6
-                         6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6z"/>
-            </svg> ${option.textContent} ▼`;
-        dropdown.classList.remove("show");
-    });
-});
-
-document.addEventListener("click", () => {
-    dropdown.classList.remove("show");
-});
-
-// ===== 原有登录逻辑 =====
-const username = document.getElementById("username");
-const password = document.getElementById("password");
-const passwordArea = document.getElementById("passwordArea");
-const errorText = document.getElementById("errorText");
-const signinBtn = document.getElementById("signinBtn");
-
-let expanded = false;
-const DEMO_PASSWORD = "123456";
-
-function expandPassword() {
-    if (expanded) return;
-    passwordArea.classList.add("show");
-    expanded = true;
-}
-
-function collapsePassword() {
-    passwordArea.classList.remove("show");
-    expanded = false;
-    password.value = "";
-    errorText.style.display = "none";
-}
-
-username.addEventListener("input", () => {
-    username.value ? expandPassword() : collapsePassword();
-});
-
-username.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && username.value.length > 0) {
-        expandPassword();
-        password.focus();
-    }
-});
-
-password.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        signinBtn.click();
-    }
-});
-
-signinBtn.addEventListener("click", () => {
-    if (!expanded) return;
-
-    if (password.value !== DEMO_PASSWORD) {
-        password.classList.add("error");
-        username.classList.add("error");
-        errorText.style.display = "block";
-    } else {
-        alert("[ArcByte Developer] Testing Successful! See logs in ArcByte Admin Panel!");
-    }
-});
-
-password.addEventListener("input", () => {
-    password.classList.remove("error");
-    username.classList.remove("error");
-    errorText.style.display = "none";
-});
 </script>
 
 </body>
