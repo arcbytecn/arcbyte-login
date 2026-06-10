@@ -1,325 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Login to ArcByte</title>
-
-<link rel="icon" href="./logos/favicon.png">
-
-<!-- Google Login SDK -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="icon" href="./logos/favicon.png" type="image/x-icon">
 
 <style>
-
-*{
-box-sizing:border-box;
-font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body{
-margin:0;
-min-height:100vh;
-background:url("./images/bglight.png") no-repeat center/cover;
-display:flex;
-align-items:center;
-justify-content:center;
+body {
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    background: url("./images/bglight.png") no-repeat center center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.signin-card{
-width:100%;
-max-width:380px;
-background:#fff;
-border-radius:6px;
-padding:30px;
-box-shadow:0 15px 40px rgba(0,0,0,0.15);
-text-align:center;
+.signin-card {
+    width: 100%;
+    max-width: 375px;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
 }
 
-.logo img{
-max-width:95px;
-margin-bottom:18px;
+.logo {
+    text-align: center;
+    margin-bottom: 18px;
 }
 
-h1{
-font-size:18px;
-font-weight:650;
-margin:0 0 6px;
-color:#111;
+.logo img {
+    max-width: 95px;
 }
 
-.subtitle{
-font-size:12px;
-color:#666;
-margin-bottom:20px;
+h1 {
+    font-size: 18px;
+    font-weight: 650;
+    margin: 0 0 6px;
+    color: #111;
 }
 
-/* OAuth buttons */
-
-.oauth-buttons{
-display:flex;
-flex-direction:column;
-gap:8px;
-margin-bottom:12px;
+.subtitle {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 30px;
 }
 
-.oauth-btn{
-width:100%;
-padding:9px;
-font-size:13px;
-border-radius:4px;
-border:1px solid #ccc;
-background:#fff;
-cursor:pointer;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
+input {
+    width: 100%;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 6px;
 }
 
-.oauth-btn:hover{
-background:#f5f5f5;
+input:focus {
+    outline: none;
+    border-color: #0067b8;
 }
 
-.oauth-btn img{
-width:16px;
-height:16px;
+input.error {
+    border-color: #d93025;
 }
 
-.oauth-divider{
-display:flex;
-align-items:center;
-margin:18px 0;
-font-size:12px;
-color:#777;
+.password-area {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
 }
 
-.oauth-divider:before,
-.oauth-divider:after{
-content:"";
-flex:1;
-height:1px;
-background:#ddd;
+.password-area.show {
+    max-height: 120px;
 }
 
-.oauth-divider span{
-padding:0 10px;
+.error-text {
+    font-size: 12px;
+    color: #d93025;
+    text-align: left;
+    margin-bottom: 10px;
+    display: none;
 }
 
-input{
-width:100%;
-padding:9px;
-font-size:13px;
-border-radius:4px;
-border:1px solid #ccc;
-margin-bottom:6px;
+.forgot {
+    text-align: left;
+    margin-bottom: 30px;
 }
 
-input:focus{
-outline:none;
-border-color:#0067b8;
+.forgot a {
+    font-size: 12px;
+    color: #0067b8;
+    text-decoration: none;
 }
 
-input.error{
-border-color:#d93025;
+button {
+    width: 100%;
+    background: #0067b8;
+    color: white;
+    border: none;
+    padding: 9px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.password-area{
-max-height:0;
-overflow:hidden;
-transition:max-height .35s ease;
+button:hover {
+    background: #005da6;
 }
 
-.password-area.show{
-max-height:120px;
+.footer-text {
+    margin-top: 25px;
+    font-size: 11px;
+    color: #666;
 }
 
-.error-text{
-font-size:12px;
-color:#d93025;
-text-align:left;
-margin-bottom:10px;
-display:none;
+.footer-text a {
+    color: #0067b8;
+    text-decoration: none;
 }
 
-button.primary{
-width:100%;
-background:#0067b8;
-color:white;
-border:none;
-padding:9px;
-font-size:13px;
-border-radius:4px;
-cursor:pointer;
-font-weight:600;
+/* ===== 页面底部 ===== */
+
+.bottom-footer {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
 }
 
-button.primary:hover{
-background:#005da6;
+.bottom-footer a {
+    color: #666;
+    text-decoration: none;
+    margin: 0 6px;
 }
 
-.footer-text{
-margin-top:20px;
-font-size:11px;
-color:#666;
+.bottom-footer a:hover {
+    text-decoration: underline;
 }
 
-.bottom-footer{
-position:absolute;
-bottom:40px;
-width:100%;
-text-align:center;
-font-size:11px;
-color:#666;
+.copyright {
+    position: absolute;
+    bottom: 16px;
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
 }
 
-.bottom-footer a{
-color:#666;
-text-decoration:none;
-margin:0 6px;
+/* 小高度设备防遮挡 */
+@media (max-height: 650px) {
+    .bottom-footer,
+    .copyright {
+        position: static;
+        margin-top: 16px;
+    }
 }
-
-.copyright{
-position:absolute;
-bottom:16px;
-width:100%;
-text-align:center;
-font-size:11px;
-color:#666;
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="signin-card">
+    <div class="logo">
+        <img src="./images/logo.png" alt="Logo">
+    </div>
 
-<div class="logo">
-<img src="./images/logo.png">
-</div>
+    <h1>Sign in</h1>
+    <div class="subtitle">to your ArcByte Account</div>
 
-<h1>Sign in</h1>
-<div class="subtitle">to your ArcByte Account</div>
+    <input id="username" type="text" placeholder="Username" />
 
+    <div class="password-area" id="passwordArea">
+        <input id="password" type="password" placeholder="Password" />
+        <div class="error-text" id="errorText">
+            Incorrect username or password. Please try again.
+        </div>
+    </div>
 
-<!-- GOOGLE LOGIN -->
+    <div class="forgot">
+        <a href="https://auth.arcbytecn.com/v3/forgot-password?">Forgot your password?</a>
+    </div>
 
+    <button id="signinBtn">Sign in</button>
 
-<!-- OTHER LOGIN OPTIONS -->
-
-<div class="oauth-divider">
-<span>or</span>
-</div>
-
-<input id="username" placeholder="Username">
-
-<div class="password-area" id="passwordArea">
-
-<input id="password" type="password" placeholder="Password">
-
-<div class="error-text" id="errorText">
-Incorrect username or password
-</div>
-
-</div>
-
-<button class="primary" id="signinBtn">Sign in</button>
-
-<div class="footer-text">
-New here? <a href="./signup.html">Create an account</a>
-</div>
-
+    <div class="footer-text">
+        New here? <a href="./signup.html">Create an account</a>
+    </div>
 </div>
 
 <div class="bottom-footer">
-<a href="#">Privacy</a>
-<a href="#">Terms</a>
-<a href="#">Cookies</a>
+    <a href="https://terms.arcbytecn.com/privacy.html">Privacy</a>
+    <a href="https://terms.arcbytecn.com/terms.html">Terms</a>
+    <a href="https://terms.arcbytecn.com/cookiess.html">Cookies</a>
 </div>
 
 <div class="copyright">
-© 2026 ArcByte Limited. All Rights Reserved.
+    Copyright © 2026 ArcByte Limited. All Rights Reserved.
 </div>
 
-
 <script>
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const passwordArea = document.getElementById("passwordArea");
+const errorText = document.getElementById("errorText");
+const signinBtn = document.getElementById("signinBtn");
 
-/* Google login callback */
+let expanded = false;
+const DEMO_PASSWORD = "123456";
 
-function handleCredentialResponse(response){
-
-fetch("/auth/google",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-token:response.credential
-})
-})
-.then(res=>res.json())
-.then(data=>{
-
-/* redirect after successful login */
-
-window.location.href="https://docs.arcbytecn.com";
-
-})
-
+function expandPassword() {
+    if (expanded) return;
+    passwordArea.classList.add("show");
+    expanded = true;
 }
 
-
-/* OAuth redirect for other providers */
-
-function oauth(provider){
-window.location.href="/auth/"+provider;
+function collapsePassword() {
+    passwordArea.classList.remove("show");
+    expanded = false;
+    password.value = "";
+    password.classList.remove("error");
+    errorText.style.display = "none";
 }
 
+username.addEventListener("input", () => {
+    if (username.value.length > 0) {
+        expandPassword();
+    } else {
+        collapsePassword();
+    }
+});
 
-/* Password login demo */
+username.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && username.value.length > 0) {
+        expandPassword();
+        password.focus();
+    }
+});
 
-const username=document.getElementById("username");
-const password=document.getElementById("password");
-const passwordArea=document.getElementById("passwordArea");
-const errorText=document.getElementById("errorText");
+password.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        signinBtn.click();
+    }
+});
 
-let expanded=false;
-const DEMO_PASSWORD="123456";
+signinBtn.addEventListener("click", () => {
+    if (!expanded) return;
 
-username.oninput=()=>{
-if(username.value&&!expanded){
-passwordArea.classList.add("show");
-expanded=true;
-}
-};
+    if (password.value !== DEMO_PASSWORD) {
+        password.classList.add("error");
+        username.classList.add("error");
+        errorText.style.display = "block";
+    } else {
+        alert("[ArcByte Developer] Testing Successful! See logs in ArcByte Admin Panel!");
+    }
+});
 
-document.getElementById("signinBtn").onclick=()=>{
-
-if(password.value!==DEMO_PASSWORD){
-
-errorText.style.display="block";
-password.classList.add("error");
-username.classList.add("error");
-
-}else{
-
-/* redirect after password success */
-
-window.location.href="https://docs.arcbytecn.com";
-
-}
-
-};
-
-password.oninput=()=>{
-errorText.style.display="none";
-password.classList.remove("error");
-username.classList.remove("error");
-};
-
+password.addEventListener("input", () => {
+    password.classList.remove("error");
+    username.classList.remove("error");
+    errorText.style.display = "none";
+});
 </script>
 
 </body>
